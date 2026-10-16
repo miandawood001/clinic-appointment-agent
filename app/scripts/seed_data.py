@@ -12,18 +12,19 @@ with Session(engine) as session:
     session.refresh(doctor1)
     session.refresh(doctor2)
 
-    tomorrow = datetime.now() + timedelta(days=1)
+    today = datetime.now().replace(minute=0, second=0, microsecond=0)
+    schedule = {
+        doctor1.id: [10, 11, 15],
+        doctor2.id: [14, 16],
+    }
 
-    slots_data = [
-        (doctor1.id, tomorrow.replace(hour=10, minute=0, second=0, microsecond=0)),
-        (doctor1.id, tomorrow.replace(hour=11, minute=0, second=0, microsecond=0)),
-        (doctor2.id, tomorrow.replace(hour=14, minute=0, second=0, microsecond=0)),
-        (doctor2.id, tomorrow.replace(hour=16, minute=0, second=0, microsecond=0)),
-    ]
-
-    for doctor_id, slot_time in slots_data:
-        slot = Slot(doctor_id=doctor_id, date=slot_time, is_booked=False)
-        session.add(slot)
+    count = 0
+    for day in range(1, 8):
+        for doctor_id, hours in schedule.items():
+            for hour in hours:
+                slot_time = (today + timedelta(days=day)).replace(hour=hour)
+                session.add(Slot(doctor_id=doctor_id, date=slot_time, is_booked=False))
+                count += 1
 
     session.commit()
-    print(f"2 doctors aur {len(slots_data)} slots database mein add ho gaye.")
+    print(f"2 doctors aur {count} slots (agle 7 din) database mein add ho gaye.")
