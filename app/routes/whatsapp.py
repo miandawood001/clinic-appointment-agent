@@ -6,6 +6,7 @@ from app.agent.conversation import handle_customer_message
 from app.agent.whatsapp import send_whatsapp_message
 from app.database import engine
 from app.models import Message
+import traceback
 
 router = APIRouter()
 
@@ -26,8 +27,8 @@ def process_message_background(customer_phone: str, incoming_text: str, wamid: s
     """Background mein agent chalata hai, taake Meta ko turant 200 mil jaye."""
     try:
         reply = handle_customer_message(customer_phone, incoming_text, wamid)
-    except Exception as e:
-        print(f"Agent error: {e}")
+    except Exception:
+        traceback.print_exc()
         reply = "Sorry, abhi system mein masla hai. Thodi der baad dobara try karein."
 
     send_result = send_whatsapp_message(customer_phone, reply)
