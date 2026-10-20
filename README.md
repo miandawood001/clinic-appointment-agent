@@ -59,7 +59,7 @@ docker-compose.yml # PostgreSQL container config
 ## Setup
 
 ### Prerequisites
-- Python 3.11+
+- Python 3.14
 - Docker Desktop
 - [Ollama](https://ollama.com) with a model pulled (e.g. `ollama pull llama3.1:8b`)
 - A Meta Developer account with WhatsApp Business API access
@@ -68,7 +68,7 @@ docker-compose.yml # PostgreSQL container config
 
 ```bash
 # Clone the repo
-git clone <repo-url>
+git clone https://github.com/miandawood001/clinic-appointment-agent.git
 cd clinic-appointment-agent
 
 # Create and activate a virtual environment
@@ -113,6 +113,7 @@ Expose it publicly (for WhatsApp webhooks) using a tool like [ngrok](https://ngr
 ## Status
 
 Core booking flow (list doctors → check availability → book → cancel) is stable and tested end-to-end. Reschedule-in-one-message and production deployment are planned next steps.
+“reschedule abhi do-step hai (cancel, phir book)”
 
 ## Author
 
